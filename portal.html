@@ -2,118 +2,234 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Sushiko WiFi</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sushiko WiFi</title>
 
 <style>
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(-45deg, #f5e6e8, #f8d7da, #f2c6c9, #fdecef);
-  background-size: 400% 400%;
-  animation: fondo 10s ease infinite;
+  font-family: -apple-system, sans-serif;
+  background: #f5f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
-@keyframes fondo {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* 🌊 ONDAS FONDO */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-radial-gradient(
+    circle at center,
+    rgba(0,0,0,0.03) 0px,
+    rgba(0,0,0,0.03) 1px,
+    transparent 1px,
+    transparent 60px
+  );
 }
 
+/* 🌸 SAKURA */
+.sakura {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #ffc1cc, #ff6f91);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(45deg);
+  opacity: 0.6;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10vh); }
+  100% { transform: translateY(110vh); }
+}
+
+/* TARJETA */
 .container {
-  max-width: 400px;
-  margin: 40px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
+  position: relative;
+  width: 90%;
+  max-width: 380px;
+  padding: 40px 30px;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.08);
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* 🌊 ONDAS INTERNAS */
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-radial-gradient(
+    circle at 50% 90px,
+    rgba(0,0,0,0.04) 0px,
+    rgba(0,0,0,0.04) 1px,
+    transparent 1px,
+    transparent 55px
+  );
+}
+
+/* LOGO + ONDAS */
+.logo-wrapper {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.logo-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 280px;
+  height: 280px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle,
+    rgba(0,0,0,0.05) 0px,
+    rgba(0,0,0,0.05) 1px,
+    transparent 1px,
+    transparent 40px
+  );
 }
 
 .logo {
-  width: 180px;
-  margin-bottom: 15px;
+  width: 240px;
+  position: relative;
 }
 
-h2 {
-  margin: 10px 0;
-}
+/* TEXTOS */
+h2 { margin: 15px 0 5px; }
+p { color: #888; font-size: 14px; }
 
-.social {
-  margin: 15px 0;
-}
-
-.social button {
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  border: 1px solid #ccc;
-  margin: 5px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
+/* INPUTS */
 input {
   width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+  padding: 15px;
+  margin: 7px 0;
+  border-radius: 14px;
+  border: none;
+  background: #f4f4f4;
 }
 
-button.submit {
+/* BOTÓN */
+button {
   width: 100%;
-  padding: 14px;
+  padding: 15px;
+  margin-top: 20px;
   border-radius: 30px;
-  background: #e48a8a;
   border: none;
+  background: linear-gradient(135deg, #f2a7a7, #e07b7b);
   color: white;
   font-weight: bold;
   cursor: pointer;
 }
 
-.small {
-  font-size: 12px;
-  color: #888;
+/* ERROR */
+.error {
+  border: 2px solid red;
+}
+
+/* RESPONSIVE */
+@media (max-width: 400px) {
+  .logo { width: 200px; }
 }
 </style>
 </head>
 
 <body>
 
+<!-- 🌸 SAKURA -->
+<script>
+for (let i = 0; i < 6; i++) {
+  const s = document.createElement("div");
+  s.className = "sakura";
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.animationDuration = (8 + Math.random() * 5) + "s";
+  document.body.appendChild(s);
+}
+</script>
+
 <div class="container">
-  <img src="logo.png" class="logo">
+
+  <div class="logo-wrapper">
+    <img src="logo.png" class="logo">
+  </div>
 
   <h2>Conéctate en un clic</h2>
   <p>Accede al WiFi y recibe promociones</p>
 
-  <div class="social">
-    <button>G</button>
-    <button>f</button>
-  </div>
+  <form id="wifiForm">
 
-  <form id="form">
-    <input type="text" id="nombre" placeholder="Nombre" required>
-    <input type="text" id="telefono" placeholder="Teléfono" required>
-    <input type="email" id="email" placeholder="Correo electrónico" required>
-    <input type="date" id="fecha" required>
+    <input id="nombre" type="text" placeholder="Nombre completo" required>
+    <input id="telefono" type="tel" placeholder="Teléfono (10 dígitos)" required>
+    <input id="email" type="email" placeholder="Correo electrónico" required>
+    <input id="fecha" type="date" required>
 
     <label>
-      <input type="checkbox" id="consentimiento" required>
+      <input id="consentimiento" type="checkbox">
       Acepto recibir promociones
     </label>
 
-    <p class="small">
-      <a href="terminos.html" target="_blank">Ver términos y condiciones</a>
+    <p>
+      <a href="terminos.html">Ver términos y condiciones</a>
     </p>
 
-    <button class="submit">ACEPTAR</button>
+    <button type="submit">ACEPTAR</button>
+
   </form>
+
 </div>
 
 <script>
-document.getElementById("form").addEventListener("submit", async (e) => {
+
+// VALIDACIONES
+function validar() {
+  let ok = true;
+
+  const nombre = document.getElementById("nombre");
+  const telefono = document.getElementById("telefono");
+  const email = document.getElementById("email");
+
+  nombre.classList.remove("error");
+  telefono.classList.remove("error");
+  email.classList.remove("error");
+
+  if (nombre.value.trim().length < 3) {
+    nombre.classList.add("error");
+    ok = false;
+  }
+
+  if (!/^[0-9]{10}$/.test(telefono.value)) {
+    telefono.classList.add("error");
+    ok = false;
+  }
+
+  if (!/^[^@]+@[^@]+\.[a-zA-Z]{2,}$/.test(email.value)) {
+    email.classList.add("error");
+    ok = false;
+  }
+
+  return ok;
+}
+
+// ENVÍO + LOGIN MIKROTIK
+document.getElementById("wifiForm").addEventListener("submit", async function(e) {
   e.preventDefault();
+
+  if (!validar()) {
+    alert("Revisa los datos");
+    return;
+  }
 
   const data = {
     nombre: document.getElementById("nombre").value,
@@ -124,23 +240,22 @@ document.getElementById("form").addEventListener("submit", async (e) => {
   };
 
   try {
-    const res = await fetch("https://sushiko-backend.onrender.com/api/register", {
+    await fetch("https://sushiko-backend.onrender.com/api/register", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
 
-    const result = await res.json();
+    alert("Conectado correctamente 🎉");
 
-    if (result.success) {
-      alert("Conectado correctamente 🎉");
-    }
+    // 🔥 LOGIN AUTOMÁTICO MIKROTIK
+    window.location.href = "$(link-login-only)?username=guest&password=guest";
+
   } catch (err) {
-    alert("Error de conexión");
+    alert("Error al conectar");
   }
 });
+
 </script>
 
 </body>
